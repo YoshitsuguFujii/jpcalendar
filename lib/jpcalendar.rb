@@ -3,15 +3,15 @@
 #
 # カレンダークラス
 #
-module Jpcalender
+module Jpcalendar
   require 'active_support/core_ext/date/calculations'
   require 'active_support/core_ext/time/calculations'
 
-  require 'jpcalender/generator'
-  require 'jpcalender/format'
-  require 'jpcalender/util'
+  require 'jpcalendar/generator'
+  require 'jpcalendar/format'
+  require 'jpcalendar/util'
 
-  require 'jpcalender/weekday_scale'
+  require 'jpcalendar/weekday_scale'
 
   require 'holiday_jp'
 

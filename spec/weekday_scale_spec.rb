@@ -1,12 +1,12 @@
 # coding: utf-8
 require 'spec_helper'
 
-describe Jpcalender::WeekdayScale do
+describe Jpcalendar::WeekdayScale do
 
   # WeekDayElem{{{
   context "WeekDayElem" do
     before do
-      @wde = Jpcalender::WeekdayScale::WeekDayElem.new(0,'日曜日','sunday')
+      @wde = Jpcalendar::WeekdayScale::WeekDayElem.new(0,'日曜日','sunday')
     end
 
     subject{@wde}
@@ -32,7 +32,7 @@ describe Jpcalender::WeekdayScale do
 
     context "日曜始まり(デフォルト)" do #{{{
       before do
-        @wd = Jpcalender::WeekdayScale::WeekDay.new
+        @wd = Jpcalendar::WeekdayScale::WeekDay.new
       end
 
       context "find_by_*" do
@@ -93,7 +93,7 @@ describe Jpcalender::WeekdayScale do
 
     context "月曜始まり" do #{{{
       before do
-        @wd = Jpcalender::WeekdayScale::WeekDay.new(true)
+        @wd = Jpcalendar::WeekdayScale::WeekDay.new(true)
       end
 
       context "find_by_*" do

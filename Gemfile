@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-# Specify your gem's dependencies in jpcalender.gemspec
+# Specify your gem's dependencies in jpcalendar.gemspec
 gemspec
 
 gem 'holiday_jp',              :git => 'git://github.com/komagata/holiday_jp.git'

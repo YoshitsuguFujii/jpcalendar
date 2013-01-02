@@ -1,6 +1,6 @@
 # coding: utf-8
 
-module Jpcalender
+module Jpcalendar
   #
   # 曜日判定用クラス
   #

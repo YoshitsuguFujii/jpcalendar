@@ -1,7 +1,7 @@
 # coding: utf-8
 require 'json'
 
-module Jpcalender
+module Jpcalendar
   #
   # データ作成クラス
   #
@@ -11,7 +11,7 @@ module Jpcalender
     ###
     # 引数で指定した月のカレンダーをハッシュで取得
     # 戻り値:hash(:day => 日付,:class => "タグに付加される属性クラス")
-    # Jpcalender.generator_feed(Date.today)
+    # Jpcalendar.generator_feed(Date.today)
     def generator_feed(_date,options ={})
 
       start_with_monday = options[:start_with_monday] || false
@@ -24,7 +24,7 @@ module Jpcalender
                    end
 
 
-      calender_weekday = WeekdayScale::WeekDay.new(start_with_monday)
+      calendar_weekday = WeekdayScale::WeekDay.new(start_with_monday)
 
       date_feed =[]
       week_arr = []
@@ -37,26 +37,26 @@ module Jpcalender
       end_date = date.end_of_month
 
       # headerの作成
-      date_feed << make_header(calender_weekday)
+      date_feed << make_header(calendar_weekday)
 
       is_firstdate = true
       (start_date.to_date..end_date.to_date).each_with_index do |d, idx|
 
         turn_proc = Proc.new do
-                      if d.wday == calender_weekday.last.number
+                      if d.wday == calendar_weekday.last.number
                         date_feed << week_arr
                         week_arr = []
                       end
                     end
 
         if is_firstdate
-          calender_weekday.each do |weekday|
+          calendar_weekday.each do |weekday|
             # 日付と曜日が一致したら、そこに日付を置く
-            if calender_weekday.find_by_number(d.wday).number == weekday.number
+            if calendar_weekday.find_by_number(d.wday).number == weekday.number
               #TODO こことなんとかしたい
               # class 作成部分
-              holiday = (calender_weekday.find_by_number(d.wday).enname == "sun" || ::HolidayJp::HOLIDAYS[d].try(:name))? "holiday" : ""
-              class_hash = { class: "row_#{date_feed.size} col_#{week_arr.size} #{calender_weekday.find_by_number(d.wday).enname} #{holiday} day_#{d.day}"}
+              holiday = (calendar_weekday.find_by_number(d.wday).enname == "sun" || ::HolidayJp::HOLIDAYS[d].try(:name))? "holiday" : ""
+              class_hash = { class: "row_#{date_feed.size} col_#{week_arr.size} #{calendar_weekday.find_by_number(d.wday).enname} #{holiday} day_#{d.day}"}
 
               # id 作成部分
               id_hash = make_id(d)
@@ -87,8 +87,8 @@ module Jpcalender
         else
           #TODO ここをなんとかしたい
           # class 作成部分
-          holiday = (calender_weekday.find_by_number(d.wday).enname == "sun" || ::HolidayJp::HOLIDAYS[d].try(:name))? "holiday" : ""
-          class_hash = { class: "row_#{date_feed.size} col_#{week_arr.size} #{calender_weekday.find_by_number(d.wday).enname} #{holiday} day_#{d.day}"}
+          holiday = (calendar_weekday.find_by_number(d.wday).enname == "sun" || ::HolidayJp::HOLIDAYS[d].try(:name))? "holiday" : ""
+          class_hash = { class: "row_#{date_feed.size} col_#{week_arr.size} #{calendar_weekday.find_by_number(d.wday).enname} #{holiday} day_#{d.day}"}
 
           # id 作成部分
           id_hash = make_id(d)
@@ -117,8 +117,8 @@ module Jpcalender
     private #{{{
       # make_hearder{{{
       # header行のデータ作成
-      def make_header(calender_weekday)
-        calender_weekday.map.with_index(0) do |cal,idx|
+      def make_header(calendar_weekday)
+        calendar_weekday.map.with_index(0) do |cal,idx|
           class_text = ["header header_#{idx}", cal.enname].join("\s")
           CalenderDate.new(cal.jpname, nil, nil, { class: class_text })
         end

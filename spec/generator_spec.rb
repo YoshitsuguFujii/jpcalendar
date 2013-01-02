@@ -1,10 +1,10 @@
 # coding: utf-8
 require 'spec_helper'
 
-describe Jpcalender::Generator do
+describe Jpcalendar::Generator do
 
   before :each do
-    extend Jpcalender::Generator
+    extend Jpcalendar::Generator
   end
 
   context "generator_feed" do

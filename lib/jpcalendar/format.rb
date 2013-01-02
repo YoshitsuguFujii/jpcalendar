@@ -1,6 +1,6 @@
 # coding: utf-8
 
-module Jpcalender
+module Jpcalendar
 
   extend Generator
 
@@ -16,9 +16,9 @@ module Jpcalender
     #          @holiday_off       trueの場合は休日を出力しない
     #          date_event        日付に対応するイベント情報(hash、またはjsonでparseできる文字列)
     #
-    def calender_table(_date = Date.today,options = {})
+    def calendar_table(_date = Date.today,options = {})
       options.merge!(wrap_tag: :table, row_tag: :tr, header_cell_tag: :th, body_cell_tag: :td)
-      calender(_date, options)
+      calendar(_date, options)
     end
 
     ##
@@ -28,9 +28,9 @@ module Jpcalender
     #          @holiday_off       trueの場合は休日を出力しない
     #          date_event        日付に対応するイベント情報(hash、またはjsonでparseできる文字列)
     #
-    def calender_div(_date = Date.today,options = {})
+    def calendar_div(_date = Date.today,options = {})
       options.merge!(wrap_tag: :html, row_tag: :div, header_cell_tag: :span, body_cell_tag: :span)
-      calender(_date, options)
+      calendar(_date, options)
     end
 
     ##
@@ -40,7 +40,7 @@ module Jpcalender
     #          @holiday_off       trueの場合は休日を出力しない
     #          date_event        日付に対応するイベント情報(hash、またはjsonでparseできる文字列)
     #
-    def calender(_date = Date.today,options = {})
+    def calendar(_date = Date.today,options = {})
       print(_date, options)
     end
 
