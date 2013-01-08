@@ -19,6 +19,8 @@ module Jpcalendar
 
       date_event = if !date_event.empty? && date_event.is_a?(String)
                      JSON.parse(date_event)
+                   elsif date_event.is_a?(Hash)
+                     date_event
                    else
                      {}
                    end
