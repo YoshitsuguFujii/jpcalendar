@@ -300,6 +300,9 @@ Options
 * 休日を含まない  
 `holiday_off: (true または false)`
 
+* 前後の月も含めて表示する  
+`fill_other_days: (true または false)`
+
 * 一桁の日付を何でパディングするか  
 `padding: 任意の文字列`
 

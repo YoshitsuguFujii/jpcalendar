@@ -1,5 +1,6 @@
 # coding: utf-8
 require 'json'
+require 'date'
 
 module Jpcalendar
   #
@@ -113,6 +114,36 @@ module Jpcalendar
       end
 
       date_feed << week_arr if week_arr.present?
+
+
+      if options[:fill_other_days]
+        # 第1週の日付のないところに前月の日付をいれていく
+        blank_date =  date_feed[1].take_while{|first_week_day| first_week_day.date == "" }
+        blank_date.size.times do |idx|
+          prev_month_day = start_date - (idx + 1)
+          date_feed[1][idx].date = prev_month_day
+          date_feed[1][idx].text = date_format(prev_month_day.day, options)
+          date_feed[1][idx].attributes = {:class => "other-month-day prev-month-day"}
+          date_feed[1][idx].jp_holiday = ::HolidayJp.holiday?(prev_month_day).try(:name)
+        end
+
+        # 最終週の日付のないところに前月の日付をいれていく
+        index = 0
+        7.times do |idx|
+          if date_feed.last[idx].nil?
+            next_month_day = start_date.next_month + index
+            index += 1
+            date_feed.last << CalenderDate.new(
+                                                next_month_day,
+                                                date_format(next_month_day.day, options),
+                                                "",
+                                                ::HolidayJp.holiday?(next_month_day).try(:name),
+                                                {:class => "other-month-day prev-month-day"}
+                                              )
+          end
+        end
+      end
+
       date_feed
 
     end
@@ -124,7 +155,7 @@ module Jpcalendar
       def make_header(calendar_weekday)
         calendar_weekday.map.with_index(0) do |cal,idx|
           class_text = ["header header_#{idx}", cal.enname].join("\s")
-          CalenderDate.new(cal.jpname, nil, nil, { class: class_text })
+          CalenderDate.new("", cal.jpname, nil, nil, { class: class_text })
         end
       end
       #}}}
