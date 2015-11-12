@@ -57,7 +57,7 @@ module Jpcalendar
             if calendar_weekday.find_by_number(d.wday).number == weekday.number
               #TODO こことなんとかしたい
               # class 作成部分
-              holiday = (calendar_weekday.find_by_number(d.wday).enname == "sun" || ::HolidayJp::HOLIDAYS[d].try(:name))? "holiday" : ""
+              holiday = (calendar_weekday.find_by_number(d.wday).enname == "sun" || ::HolidayJp.holiday?(d)) ? "holiday" : ""
               class_hash = { class: "row_#{date_feed.size} col_#{week_arr.size} #{calendar_weekday.find_by_number(d.wday).enname} #{holiday} day_#{d.day}"}
 
               # id 作成部分
@@ -68,9 +68,10 @@ module Jpcalendar
 
               # 押し込む
               week_arr << CalenderDate.new(
+                                            d,
                                             date_format(d.day, options),
                                             event_name,
-                                            ::HolidayJp::HOLIDAYS[d].try(:name),
+                                            ::HolidayJp.holiday?(d).try(:name),
                                             id_hash.merge(class_hash)
                                           )
 
@@ -89,7 +90,7 @@ module Jpcalendar
         else
           #TODO ここをなんとかしたい
           # class 作成部分
-          holiday = (calendar_weekday.find_by_number(d.wday).enname == "sun" || ::HolidayJp::HOLIDAYS[d].try(:name))? "holiday" : ""
+          holiday = (calendar_weekday.find_by_number(d.wday).enname == "sun" || ::HolidayJp.holiday?(d)) ? "holiday" : ""
           class_hash = { class: "row_#{date_feed.size} col_#{week_arr.size} #{calendar_weekday.find_by_number(d.wday).enname} #{holiday} day_#{d.day}"}
 
           # id 作成部分
@@ -100,9 +101,10 @@ module Jpcalendar
 
           # 押し込む
           week_arr << CalenderDate.new(
+                                        d,
                                         date_format(d.day, options),
                                         event_name,
-                                        ::HolidayJp::HOLIDAYS[d].try(:name),
+                                        ::HolidayJp.holiday?(d).try(:name),
                                         id_hash.merge(class_hash)
                                       )
           # 折り返し
@@ -133,15 +135,16 @@ module Jpcalendar
       end #}}}
 
       class CalenderDate #{{{
-        attr_accessor :text, :event, :attributes, :jp_holiday
+        attr_accessor :date, :text, :event, :attributes, :jp_holiday
         class AttributeTypeError < StandardError
           def initialize(msg = "CalenderDate attributes is only accept hash")
             super(msg)
           end
         end
 
-        def initialize(_text = "", _event = nil, _jp_holiday = nil, _attributes = {})
+        def initialize(_date = "", _text = "", _event = nil, _jp_holiday = nil, _attributes = {})
           raise AttributeTypeError if _attributes.present? && !_attributes.is_a?(Hash)
+          self.date       = _date
           self.text       = _text
           self.event      = _event
           self.jp_holiday = _jp_holiday
