@@ -13,7 +13,7 @@ module Jpcalendar
     # 引数で指定した月のカレンダーをハッシュで取得
     # 戻り値:hash(:day => 日付,:class => "タグに付加される属性クラス")
     # Jpcalendar.generator_feed(Date.today)
-    def generator_feed(_date,options ={})
+    def feed(_date,options ={})
 
       start_with_monday = options[:start_with_monday] || false
       date_event   = options.delete(:date_event)   || ""
@@ -145,8 +145,8 @@ module Jpcalendar
       end
 
       date_feed
-
     end
+    alias :generator_feed :feed
     #}}}generator_feed
 
     private #{{{
