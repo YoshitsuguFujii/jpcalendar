@@ -120,7 +120,7 @@ module Jpcalendar
         # 第1週の日付のないところに前月の日付をいれていく
         blank_date =  date_feed[1].take_while{|first_week_day| first_week_day.date == "" }
         blank_date.size.times do |idx|
-          prev_month_day = start_date - (idx + 1)
+          prev_month_day = start_date - (blank_date.size - idx + 1)
           date_feed[1][idx].date = prev_month_day
           date_feed[1][idx].text = date_format(prev_month_day.day, options)
           date_feed[1][idx].attributes = {:class => "other-month-day prev-month-day"}
